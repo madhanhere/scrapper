@@ -1,4 +1,4 @@
-import { chromium } from "playwright";
+import { chromium, Page } from "playwright";
 import fs from "fs";
 
 const randomDelay = (time = 1000) =>
@@ -13,14 +13,14 @@ const products: Product[] = [];
 
 const PAGE = "https://amazon.in";
 
-const getDropDown = async (page: any) => {
+const getDropDown = async (page: Page) => {
   await page.getByText("placed in").waitFor();
   const ordersText = await page.getByText("placed in");
   const filterList = await ordersText.locator("xpath=following-sibling::*[1]");
   return filterList;
 };
 
-const login = async (page: any) => {
+const login = async (page: Page) => {
   await page.goto("https://amazon.in");
 
   await page.waitForTimeout(randomDelay());
@@ -57,13 +57,13 @@ const login = async (page: any) => {
   await page.click('input[type="submit"]');
 };
 
-const goToOrders = async (page: any) => {
+const goToOrders = async (page: Page) => {
   await page.click('a[href*="orders"]');
 
   await page.waitForTimeout(randomDelay());
 };
 
-const processProducts = async (page: any) => {
+const processProducts = async (page: Page) => {
   let filterList = await getDropDown(page);
 
   filterList.click();
